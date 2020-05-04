@@ -4,7 +4,7 @@ class GameController {
 
     async store(req, res){
 
-        const { name, status, platform } = req.body;
+        const { name, status, platform, year } = req.body;
 
         const { filename: photo } = req.file;
 
@@ -12,6 +12,7 @@ class GameController {
             name,
             status,
             platform,
+            year,
             photo,
         });
 

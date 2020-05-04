@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
-export default createGlobalStyle`
+import 'react-circular-progressbar/dist/styles.css';
 
-    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+export default createGlobalStyle`
 
     * {
         margin: 0;
@@ -21,12 +21,12 @@ export default createGlobalStyle`
 
     body {
         -webkit-font-smoothing: antialiased;
-        background: #151515;
-        color: white;
+        background: linear-gradient(5deg, #002e61 20%, #26bfa3);
+        color: #f5f5f5;
     }
 
     body, input, button {
-        font: 14px 'Montserrat', sans-serif;
+        font: 14px 'Poppins', sans-serif;
     }
 
     a {

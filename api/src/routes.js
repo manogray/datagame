@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import multer from 'multer';
 
 import { ImageUploadConfig } from './config/multer';
@@ -9,8 +9,10 @@ const routes = new Router();
 
 const uploadImage = multer(ImageUploadConfig);
 
+routes.use(express.static('data'));
+
 routes.get('/', (req, res) => {
-    return res.json({ message: 'dataGame' });
+    return res.json({ version: '1.0' });
 });
 
 routes.get('/games', GameController.index);

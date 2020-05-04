@@ -13,6 +13,10 @@ const GameSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    year: {
+        type: Number,
+        required: true,
+    },
     photo: {
         type: String,
         required: true,
