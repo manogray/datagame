@@ -21,7 +21,7 @@ export default createGlobalStyle`
 
     body {
         -webkit-font-smoothing: antialiased;
-        background: linear-gradient(5deg, #002e61 20%, #26bfa3);
+        background: #1c1c1c;
         color: #f5f5f5;
     }
 

@@ -15,12 +15,54 @@ const GameSchema = new mongoose.Schema({
     },
     year: {
         type: Number,
-        required: true,
+        required: false,
     },
     photo: {
         type: String,
-        required: true,
-    }
+        required: false,
+        default: null,
+    },
+    coverUrl: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    fallbackCoverUrl: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    coverSource: {
+        type: String,
+        enum: ['upload', 'rawg', 'steam'],
+        default: 'upload',
+    },
+    externalId: {
+        type: Number,
+        required: false,
+        default: null,
+    },
+    sourceUrl: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    steamAppId: {
+        type: Number,
+        required: false,
+        unique: true,
+        sparse: true,
+    },
+    steamPlaytimeMinutes: {
+        type: Number,
+        required: false,
+        default: null,
+    },
+    steamLastPlayedAt: {
+        type: Date,
+        required: false,
+        default: null,
+    },
 }, {
     timestamps: true,
 });

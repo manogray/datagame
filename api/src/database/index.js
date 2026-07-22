@@ -7,7 +7,7 @@ class Database {
 
     init(){
         this.mongoConnection = mongoose.connect(
-            'mongodb://localhost:27017/datagame',
+            process.env.MONGO_URL || 'mongodb://localhost:27017/datagame',
             {
                 useNewUrlParser: true,
                 useFindAndModify: true,

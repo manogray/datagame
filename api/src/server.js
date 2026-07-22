@@ -1,3 +1,5 @@
 import datagame from './datagame';
 
-datagame.listen(3001);
+const port = process.env.PORT || 3001;
+
+datagame.listen(port);

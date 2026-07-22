@@ -6,7 +6,7 @@ export default function FileImage({ files }) {
   return (
       <Container>
           { files.map(uploadedFile => (
-              <FileInfo>
+              <FileInfo key={uploadedFile.name}>
                 <Preview src={uploadedFile.preview} />
                 <div>
                     <strong>{uploadedFile.name}</strong>
