@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import Button from '../../components/button';
+import { steamProfileStorageKey } from '../../constants/storage';
 
 import {
   Container,
@@ -17,8 +18,15 @@ import {
   StatusSelect,
   Feedback,
   Actions,
-  BackLink,
 } from './style';
+
+function getSavedSteamProfile(){
+  try {
+    return window.localStorage.getItem(steamProfileStorageKey) || '';
+  } catch (error) {
+    return '';
+  }
+}
 
 function formatPlaytime(minutes){
   if(!minutes) return 'Não jogado';
@@ -28,7 +36,7 @@ function formatPlaytime(minutes){
 
 export default function SteamImport(){
   const history = useHistory();
-  const [profile, setProfile] = useState('');
+  const [profile, setProfile] = useState(getSavedSteamProfile);
   const [steamId, setSteamId] = useState('');
   const [games, setGames] = useState([]);
   const [selected, setSelected] = useState({});
@@ -45,17 +53,27 @@ export default function SteamImport(){
   const selectedCount = Object.keys(selected).length;
 
   async function loadLibrary(){
-    if(!profile.trim()){
+    const normalizedProfile = profile.trim();
+
+    if(!normalizedProfile){
       setFeedback('Informe o SteamID ou link do perfil.');
       return;
     }
+
+    try {
+      window.localStorage.setItem(steamProfileStorageKey, normalizedProfile);
+    } catch (error) {
+      // A busca continua funcionando mesmo quando o navegador bloqueia o armazenamento.
+    }
+
+    setProfile(normalizedProfile);
 
     setLoading(true);
     setFeedback('');
     setSelected({});
 
     try {
-      const response = await api.get('/steam/library', { params: { profile } });
+      const response = await api.get('/steam/library', { params: { profile: normalizedProfile } });
       setSteamId(response.data.steamId);
       setGames(response.data.games);
       setFeedback(`${response.data.games.length} jogos encontrados. Jogos já importados ficam desabilitados.`);
@@ -110,9 +128,17 @@ export default function SteamImport(){
       const total = response.data.imported.length;
 
       if(total){
-        history.push('/');
+        if(response.data.skipped){
+          setFeedback(response.data.message || 'Alguns jogos já estavam cadastrados e não foram importados.');
+          setSelected({});
+          setGames(current => current.map(game => (
+            selected[game.appId] ? { ...game, imported: true } : game
+          )));
+        } else {
+          history.push('/');
+        }
       } else {
-        setFeedback('Nenhum jogo novo foi importado.');
+        setFeedback(response.data.message || 'Os jogos selecionados já estão cadastrados.');
       }
     } catch (error) {
       const message = error.response && error.response.data && error.response.data.error;

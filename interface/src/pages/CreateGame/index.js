@@ -7,6 +7,7 @@ import FileImage from '../../components/FileImage';
 import Button from '../../components/button';
 
 import api from '../../services/api';
+import { platformOptions, statusOptions } from '../../constants/gameOptions';
 
 import {
   Container,
@@ -26,6 +27,7 @@ import {
   Attribution,
   SourceOptions,
   SourceButton,
+  MySelect,
 } from './style';
 
 export default function CreateGame(){
@@ -33,6 +35,7 @@ export default function CreateGame(){
   const history = useHistory();
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [gameStatus, setGameStatus] = useState('progress');
   const [searchSource, setSearchSource] = useState('rawg');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
@@ -101,11 +104,6 @@ export default function CreateGame(){
 
     if(formRef.current){
       formRef.current.setFieldValue('name', game.name);
-      formRef.current.setFieldValue('platform', game.platforms.join(', '));
-
-      if(game.year){
-        formRef.current.setFieldValue('year', game.year);
-      }
     }
   }
 
@@ -238,9 +236,13 @@ export default function CreateGame(){
       <MyForm ref={formRef} onSubmit={handleSubmit}>
         <InputContainer>
           <MyInput autoComplete="off" autoFocus name="name" placeholder="Nome do jogo" />
-          <MyInput autoComplete="off" name="platform" placeholder="Plataforma" />
-          <MyInput autoComplete="off" name="year" type="number" placeholder="Ano" />
-          <MyInput autoComplete="off" name="status" placeholder="finished ou progress" />
+          <MySelect name="status" options={statusOptions} onChange={event => setGameStatus(event.target.value)} />
+          {gameStatus === 'finished' && (
+            <>
+              <MySelect name="platform" options={platformOptions} />
+              <MyInput autoComplete="off" name="year" type="number" placeholder="Ano em que zerou" />
+            </>
+          )}
           <Button type="submit" disabled={submitting}>
             {submitting ? 'Adicionando...' : 'Adicionar'}
           </Button>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Select } from '@rocketseat/unform';
 
 export const Container = styled.div`
     display: flex;
@@ -200,5 +200,19 @@ export const MyInput = styled(Input)`
 
     &::placeholder {
         color: #f5f5f5;
+    }
+`;
+
+export const MySelect = styled(Select)`
+    margin: 5px 0;
+    padding: 13px 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 5px;
+    background: rgba(0,0,0,0.18);
+    color: #f5f5f5;
+
+    option {
+        background: #333;
+        color: #fff;
     }
 `;

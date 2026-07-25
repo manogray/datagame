@@ -1,6 +1,6 @@
 # DataGame
 
-DataGame é uma aplicação web para organizar os jogos que você está jogando ou já terminou. Cada jogo pode ser cadastrado com nome, plataforma, ano, status e uma imagem de capa.
+DataGame é uma aplicação web para organizar os jogos que você está jogando ou já terminou. Cada jogo pode ser cadastrado com nome, status e imagem de capa. Para jogos zerados, também é possível informar o ano e a plataforma em que foram concluídos.
 
 ## Funcionalidades
 
@@ -12,6 +12,12 @@ DataGame é uma aplicação web para organizar os jogos que você está jogando 
 - Upload manual como alternativa quando uma capa não estiver disponível;
 - Importação seletiva da biblioteca pública da Steam;
 - Sincronização do AppID e tempo total jogado na Steam;
+- Sincronização manual do tempo e da última execução da biblioteca Steam;
+- Edição dos dados e da capa de jogos cadastrados ou importados;
+- Exclusão de jogos, incluindo a limpeza de imagens locais;
+- Painel de estatísticas atualizado automaticamente;
+- Plano único e ordenado de jogos em progresso;
+- Conclusão de jogos diretamente pelo plano, com ano e plataforma;
 - Identificação visual de jogos zerados ou em progresso;
 - Armazenamento dos dados no MongoDB;
 - Armazenamento local das imagens enviadas.
@@ -136,11 +142,20 @@ A interface será aberta pelo servidor de desenvolvimento do Create React App, n
 | --- | --- | --- |
 | `GET` | `/` | Retorna a versão da API |
 | `GET` | `/games` | Lista os jogos em ordem alfabética |
+| `GET` | `/games/:id` | Retorna um jogo específico |
 | `GET` | `/games/search?query=:nome` | Busca jogos e capas na RAWG |
 | `POST` | `/games` | Cadastra um jogo e envia sua capa |
+| `PUT` | `/games/:id` | Atualiza dados e opcionalmente substitui a capa |
+| `DELETE` | `/games/:id` | Exclui um jogo |
+| `GET` | `/stats` | Retorna os totais e recordes da coleção |
+| `GET` | `/game-plan` | Retorna o plano de jogo atual |
+| `GET` | `/game-plan/eligible` | Lista jogos em progresso disponíveis para o plano |
+| `PUT` | `/game-plan` | Cria ou substitui o plano atual |
+| `PATCH` | `/game-plan/items/:gameId/complete` | Marca um item como zerado e o remove do plano |
 | `GET` | `/steam/library?profile=:perfil` | Lista a biblioteca pública de um perfil Steam |
 | `GET` | `/steam/search?query=:nome` | Busca jogos no catálogo Steam |
 | `POST` | `/steam/import` | Importa os jogos Steam selecionados |
+| `POST` | `/steam/sync` | Atualiza tempo jogado e última execução por AppID |
 | `GET` | `/img/:arquivo` | Retorna uma imagem armazenada |
 
 O cadastro em `POST /games` utiliza `multipart/form-data` com os seguintes campos:

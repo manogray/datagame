@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.header`
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 10;
+  left: 0;
+  z-index: 100;
   width: 100%;
   background: #333;
   border-bottom: 1px solid rgba(255,102,0,0.16);
@@ -15,6 +16,7 @@ export const Container = styled.header`
 export const Content = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 150px;
   width: min(1100px, calc(100% - 30px));
   min-height: 64px;
@@ -39,6 +41,7 @@ export const Brand = styled(Link)`
 export const Navigation = styled.nav`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 
   a {

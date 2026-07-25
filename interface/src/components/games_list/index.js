@@ -1,12 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { List, Game, Status, Info, Title, InfoLine, Number, GameCover } from './style';
+import { List, Game, Status, Info, Title, InfoLine, GameCover } from './style';
 
 export default function GamesList({ data }){
+  const history = useHistory();
   function getCover(game){
-    if(game.steamAppId){
+    if(game.coverSource === 'steam' && game.steamAppId){
       return `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.steamAppId}/library_600x900.jpg`;
     }
 
@@ -18,7 +20,7 @@ export default function GamesList({ data }){
       return game.fallbackCoverUrl;
     }
 
-    if(game.steamAppId && game.coverUrl){
+    if(game.coverSource === 'steam' && game.steamAppId && game.coverUrl){
       return game.coverUrl;
     }
 
@@ -29,14 +31,34 @@ export default function GamesList({ data }){
     return '';
   }
 
+  function shouldShowSteamPlaytime(game){
+    const hasImportedPlaytime = game.steamPlaytimeMinutes != null;
+    const isInProgress = game.status === 'progress';
+    const wasFinishedOnSteam = game.status === 'finished'
+      && String(game.platform || '').toLowerCase() === 'steam';
+
+    return hasImportedPlaytime && (isInProgress || wasFinishedOnSteam);
+  }
+
   return (
     <List>
         { data.map(game => {
           const cover = getCover(game);
           const fallback = getFallbackCover(game);
+          const gameId = game._id || game.id;
 
           return (
-          <Game key={game.id}>
+          <Game
+            key={gameId}
+            role="link"
+            tabIndex="0"
+            onClick={event => {
+              if(!event.target.closest('a')) history.push(`/games/${gameId}/edit`);
+            }}
+            onKeyDown={event => {
+              if(event.key === 'Enter' || event.key === ' ') history.push(`/games/${gameId}/edit`);
+            }}
+          >
             <GameCover
               style={{
                 backgroundImage: fallback
@@ -47,9 +69,13 @@ export default function GamesList({ data }){
             </GameCover>
             <Info>
               <Title>{game.name}</Title>
-              <InfoLine>{game.platform}</InfoLine>
-              <InfoLine>{game.year}</InfoLine>
-              {game.steamPlaytimeMinutes != null && (
+              {game.status === 'finished' && game.year && (
+                <InfoLine>Zerado em {game.year}</InfoLine>
+              )}
+              {game.status === 'finished' && game.platform && (
+                <InfoLine>Plataforma: {game.platform}</InfoLine>
+              )}
+              {shouldShowSteamPlaytime(game) && (
                 <InfoLine>{Math.round(game.steamPlaytimeMinutes / 6) / 10} horas na Steam</InfoLine>
               )}
               <Status status={game.status}>{ game.status === 'finished' ? 'Zerado' : 'Em progresso' }</Status>

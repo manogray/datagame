@@ -18,6 +18,7 @@ export const Game = styled.div`
     display: flex;
     align-items: center;
     padding: 15px;
+    cursor: pointer;
 
     &:hover {
         transform: scale(1.05);

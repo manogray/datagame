@@ -16,6 +16,15 @@ export default function Header(){
           <NavLink to="/steam/import" activeClassName="active">
             Importar da Steam
           </NavLink>
+          <NavLink to="/stats" activeClassName="active">
+            Estatísticas
+          </NavLink>
+          <NavLink to="/game-plan" activeClassName="active">
+            Plano de jogo
+          </NavLink>
+          <NavLink to="/retrospectives" activeClassName="active">
+            Retrospectivas
+          </NavLink>
         </Navigation>
       </Content>
     </Container>

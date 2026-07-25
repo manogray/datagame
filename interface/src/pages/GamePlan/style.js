@@ -1,0 +1,21 @@
+import styled from 'styled-components';
+
+export const Container = styled.main`width: min(1100px, calc(100% - 30px)); margin: 35px auto 60px;`;
+export const Header = styled.div`margin-bottom: 24px; h1 { color: #ff6600; font-family: 'Montserrat', sans-serif; } p { margin-top: 6px; color: rgba(255,255,255,.7); }`;
+export const Section = styled.section`margin-top: 18px; padding: 22px; border-radius: 8px; background: #333; box-shadow: 2px 3px 10px rgba(0,0,0,.22); h2 { color: #ff6600; } > p { margin: 7px 0 18px; color: rgba(255,255,255,.68); } h3 { margin-bottom: 12px; }`;
+export const CurrentList = styled.div`display: flex; flex-direction: column; gap: 10px; margin-top: 15px;`;
+export const CurrentItem = styled.div`display: flex; align-items: center; gap: 14px; padding: 12px; border: 1px solid rgba(255,255,255,.14); border-radius: 6px; background: rgba(0,0,0,.15); @media(max-width:620px){align-items:flex-start; flex-wrap:wrap;}`;
+export const Order = styled.strong`display:grid; place-items:center; width:32px; min-width:32px; height:32px; border-radius:50%; background:#ff6600; color:#222;`;
+export const Cover = styled.img`width:54px; min-width:54px; height:80px; border-radius:4px; object-fit:cover;`;
+export const GameInfo = styled.div`display:flex; flex:1; flex-direction:column; gap:7px; span{color:rgba(255,255,255,.68);}`;
+export const CompleteButton = styled.button`padding:9px 12px; border:1px solid #55d98b; border-radius:5px; background:rgba(85,217,139,.14); color:#8dffb9;`;
+export const Builder = styled.div`display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; @media(max-width:800px){grid-template-columns:1fr;}`;
+export const AvailableList = styled.div`max-height:520px; display:flex; flex-direction:column; gap:8px; padding-right:5px; overflow-y:auto;`;
+export const AvailableGame = styled.button`display:flex; align-items:center; gap:10px; width:100%; padding:9px; border:1px solid ${props=>props['aria-pressed']?'#ff6600':'rgba(255,255,255,.14)'}; border-radius:5px; background:${props=>props['aria-pressed']?'rgba(255,102,0,.13)':'rgba(0,0,0,.14)'}; color:#fff; text-align:left; span{flex:1;} strong{color:#ff9b59;font-size:12px;}`;
+export const PlanDraft = styled.div`display:flex; flex-direction:column; gap:8px; margin-bottom:12px;`;
+export const DraftItem = styled.div`display:flex; align-items:center; gap:10px; padding:11px; border:1px solid rgba(255,255,255,.14); border-radius:5px; >div:nth-child(2){display:flex;flex:1;flex-direction:column;gap:7px;}`;
+export const PlatformSelect = styled.select`padding:7px; border:1px solid rgba(255,255,255,.2); border-radius:4px; background:#262626; color:#fff;`;
+export const OrderActions = styled.div`display:flex; flex-direction:column; gap:4px;`;
+export const SmallButton = styled.button`width:30px; height:27px; border:0; border-radius:4px; background:rgba(255,102,0,.2); color:#ff9b59; &:disabled{opacity:.3;}`;
+export const Feedback = styled.p`margin-bottom:15px; padding:12px; border-radius:5px; background:rgba(255,102,0,.13);`;
+export const Empty = styled.p`padding:18px; color:rgba(255,255,255,.55); text-align:center;`;

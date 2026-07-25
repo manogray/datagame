@@ -1,13 +1,21 @@
 import mongoose from 'mongoose';
+import { normalizeGameName } from '../../utils/gameName';
 
 const GameSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        trim: true,
+    },
+    normalizedName: {
+        type: String,
+        unique: true,
+        sparse: true,
     },
     status: {
         type: String,
         required: true,
+        enum: ['finished', 'progress'],
     },
     platform: {
         type: String,
@@ -65,6 +73,11 @@ const GameSchema = new mongoose.Schema({
     },
 }, {
     timestamps: true,
+});
+
+GameSchema.pre('validate', function setNormalizedName(next) {
+    this.normalizedName = normalizeGameName(this.name);
+    next();
 });
 
 export default mongoose.model('Game', GameSchema);
