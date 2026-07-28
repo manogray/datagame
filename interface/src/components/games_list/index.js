@@ -3,7 +3,18 @@ import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { List, Game, Status, Info, Title, InfoLine, GameCover } from './style';
+import {
+  List,
+  Game,
+  CardInner,
+  FrontFace,
+  BackFace,
+  Status,
+  Info,
+  Title,
+  InfoLine,
+  GameCover,
+} from './style';
 
 export default function GamesList({ data }){
   const history = useHistory();
@@ -59,36 +70,42 @@ export default function GamesList({ data }){
               if(event.key === 'Enter' || event.key === ' ') history.push(`/games/${gameId}/edit`);
             }}
           >
-            <GameCover
-              style={{
-                backgroundImage: fallback
-                  ? `url("${cover}"), url("${fallback}")`
-                  : `url("${cover}")`
-              }}
-            >
-            </GameCover>
-            <Info>
-              <Title>{game.name}</Title>
-              {game.status === 'finished' && game.year && (
-                <InfoLine>Zerado em {game.year}</InfoLine>
-              )}
-              {game.status === 'finished' && game.platform && (
-                <InfoLine>Plataforma: {game.platform}</InfoLine>
-              )}
-              {shouldShowSteamPlaytime(game) && (
-                <InfoLine>{Math.round(game.steamPlaytimeMinutes / 6) / 10} horas na Steam</InfoLine>
-              )}
-              <Status status={game.status}>{ game.status === 'finished' ? 'Zerado' : 'Em progresso' }</Status>
-              {game.coverSource === 'rawg' && game.sourceUrl && (
-                <a href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Dados e imagem: RAWG</a>
-              )}
-              {game.steamAppId && (
-                <a href={`https://store.steampowered.com/app/${game.steamAppId}`} target="_blank" rel="noopener noreferrer">Biblioteca e tempo jogado: Steam</a>
-              )}
-              {game.coverSource === 'steam' && game.sourceUrl && !game.steamAppId && (
-                <a href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Dados e imagem: Steam</a>
-              )}
-            </Info>
+            <CardInner>
+              <FrontFace>
+                <GameCover
+                  style={{
+                    backgroundImage: fallback
+                      ? `url("${cover}"), url("${fallback}")`
+                      : `url("${cover}")`
+                  }}
+                />
+              </FrontFace>
+
+              <BackFace>
+                <Info>
+                  <Title>{game.name}</Title>
+                  {game.status === 'finished' && game.year && (
+                    <InfoLine>Zerado em {game.year}</InfoLine>
+                  )}
+                  {game.status === 'finished' && game.platform && (
+                    <InfoLine>Plataforma: {game.platform}</InfoLine>
+                  )}
+                  {shouldShowSteamPlaytime(game) && (
+                    <InfoLine>{Math.round(game.steamPlaytimeMinutes / 6) / 10} horas na Steam</InfoLine>
+                  )}
+                  <Status status={game.status}>{ game.status === 'finished' ? 'Zerado' : 'Em progresso' }</Status>
+                  {game.coverSource === 'rawg' && game.sourceUrl && (
+                    <a href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Dados e imagem: RAWG</a>
+                  )}
+                  {game.steamAppId && (
+                    <a href={`https://store.steampowered.com/app/${game.steamAppId}`} target="_blank" rel="noopener noreferrer">Biblioteca e tempo jogado: Steam</a>
+                  )}
+                  {game.coverSource === 'steam' && game.sourceUrl && !game.steamAppId && (
+                    <a href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Dados e imagem: Steam</a>
+                  )}
+                </Info>
+              </BackFace>
+            </CardInner>
           </Game>
           );
         }) }

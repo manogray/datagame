@@ -12,20 +12,48 @@ export const List = styled.div`
 
 export const Game = styled.div`
     position: relative;
-    background: #333;
-    float: left;
     width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 15px;
+    min-height: 280px;
+    perspective: 1100px;
     cursor: pointer;
 
-    &:hover {
-        transform: scale(1.05);
-        transition: 0.2s;
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-        z-index: 2;
+    &:hover > div,
+    &:focus > div,
+    &:focus-within > div {
+        transform: rotateY(180deg);
     }
+`;
+
+export const CardInner = styled.div`
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+`;
+
+const CardFace = styled.div`
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    background: #333;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.25);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+`;
+
+export const FrontFace = styled(CardFace)`
+    z-index: 2;
+`;
+
+export const BackFace = styled(CardFace)`
+    transform: rotateY(180deg);
 `;
 
 export const GameCover = styled.div`
@@ -52,7 +80,9 @@ export const InfoLine = styled.span`
 export const Info = styled.div`
     display: flex;
     flex-direction: column;
-    margin-left: 15px;
+    align-items: center;
+    max-width: 90%;
+    text-align: center;
 
     a {
         margin-top: 10px;
